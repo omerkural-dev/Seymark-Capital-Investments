@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seymark Capital | Cash Home Buyers</title>
+  <meta name="description" content="Sell your house fast for cash. No agents, no fees, no repairs. Seymark Capital — private real estate investment." />
+  <link rel="icon" type="image/png" href="./seymarklogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --black:   #080808;
+      --dark:    #111111;
+      --dark2:   #181818;
+      --dark3:   #222222;
+      --gold:    #C8A45A;
+      --gold2:   #E2C47E;
+      --gold3:   #8B6D35;
+      --cream:   #F7F3EC;
+      --cream2:  #EDE8DF;
+      --muted:   #888888;
+      --white:   #FFFFFF;
+      --border-dark: rgba(200,164,90,0.18);
+      --border-light: rgba(0,0,0,0.1);
+      --r: 3px;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;line-height:1.6}
+    img{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    button{cursor:pointer;border:none;background:none;font-family:inherit}
+    ul{list-style:none}
+    input,textarea,select{font-family:inherit}
+
+    .page{display:none;min-height:100vh}
+    .page.active{display:block}
+
+    .wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
+    .tag{
+      font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--gold);font-weight:600;
+      display:inline-flex;align-items:center;gap:.6rem;
+      margin-bottom:1.25rem;
+    }
+    .tag::before{content:'';width:2rem;height:1px;background:var(--gold)}
+
+    h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.12;font-weight:500}
+
+    .btn{
+      display:inline-flex;align-items:center;gap:.5rem;
+      padding:.9rem 2rem;font-size:.75rem;letter-spacing:.14em;
+      text-transform:uppercase;font-weight:600;
+      transition:all .3s var(--ease);border-radius:var(--r);
+      font-family:'DM Sans',sans-serif;
+    }
+    .btn-gold{background:var(--gold);color:var(--black)}
+    .btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(200,164,90,.28)}
+    .btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--white)}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+    .btn-ghost-gold{border:1px solid var(--gold);color:var(--gold)}
+    .btn-ghost-gold:hover{background:var(--gold);color:var(--black)}
+
+    @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    @keyframes pulse-gold{0%,100%{box-shadow:0 0 0 0 rgba(200,164,90,.4)}70%{box-shadow:0 0 0 12px rgba(200,164,90,0)}}
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.on{opacity:1;transform:none}
+
+    /* ── NAVBAR ── */
+    #nav{
+      position:fixed;top:0;left:0;right:0;z-index:900;
+      padding:.55rem 0;transition:all .35s var(--ease);
+    }
+    #nav.solid{
+      background:rgba(8,8,8,.96);backdrop-filter:blur(14px);
+      padding:.35rem 0;border-bottom:1px solid rgba(200,164,90,.12);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between}
+
+    /* LOGO ONLY — no text, just the image, made significantly larger */
+    .nav-logo{display:flex;align-items:center;cursor:pointer}
+    .nav-logo img{
+      height:110px;
+      width:auto;
+      max-width:260px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .nav-links{display:flex;align-items:center;gap:2.5rem}
+    .nav-links a{
+      font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+      color:rgba(255,255,255,.65);font-weight:500;
+      transition:color .25s;position:relative;cursor:pointer;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:-3px;left:0;
+      width:0;height:1px;background:var(--gold);transition:width .3s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active-link{color:var(--gold)}
+    .nav-links a:hover::after,
+    .nav-links a.active-link::after{width:100%}
+    .nav-action{margin-left:1.5rem}
+
+    .burger{display:none;flex-direction:column;gap:5px;padding:6px}
+    .burger span{display:block;width:22px;height:1.5px;background:var(--white);transition:all .3s}
+    .burger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+    .burger.open span:nth-child(2){opacity:0}
+    .burger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+
+    #mobile-menu{
+      display:none;position:fixed;inset:0;z-index:850;
+      background:var(--black);flex-direction:column;
+      align-items:center;justify-content:center;gap:3rem;
+    }
+    #mobile-menu.open{display:flex}
+    #mobile-menu a{
+      font-family:'Playfair Display',serif;font-size:2.2rem;
+      color:rgba(255,255,255,.8);transition:color .25s;cursor:pointer;
+    }
+    #mobile-menu a:hover{color:var(--gold)}
+
+    /* ── HOME ── */
+    #pg-home .hero{
+      min-height:100vh;position:relative;display:flex;align-items:center;
+      background:var(--black);overflow:hidden;
+    }
+    .hero-media{
+      position:absolute;inset:0;
+      background:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1800&q=80') center/cover no-repeat;
+      opacity:.18;
+    }
+    .hero-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(110deg,rgba(8,8,8,1) 38%,rgba(8,8,8,.55) 100%);
+    }
+    .hero-body{
+      position:relative;z-index:2;padding-top:9rem;padding-bottom:6rem;
+      max-width:700px;
+    }
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:.7rem;
+      font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--gold);font-weight:600;margin-bottom:2rem;
+      opacity:0;animation:up .8s .15s forwards;
+    }
+    .hero-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold)}
+    .hero-h1{
+      font-size:clamp(3rem,5.5vw,5.25rem);font-weight:500;color:var(--white);
+      line-height:1.06;margin-bottom:1.75rem;
+      opacity:0;animation:up .9s .3s forwards;
+    }
+    .hero-h1 em{font-style:italic;color:var(--gold)}
+    .hero-sub{
+      font-size:1.05rem;color:rgba(255,255,255,.55);font-weight:300;
+      line-height:1.8;max-width:480px;margin-bottom:2.75rem;
+      opacity:0;animation:up .9s .45s forwards;
+    }
+    .hero-btns{
+      display:flex;gap:1rem;flex-wrap:wrap;
+      opacity:0;animation:up .9s .6s forwards;
+    }
+    .hero-stats{
+      display:flex;gap:3.5rem;flex-wrap:wrap;
+      margin-top:5rem;padding-top:2.5rem;
+      border-top:1px solid rgba(255,255,255,.1);
+      opacity:0;animation:up .9s .75s forwards;
+    }
+    .hs-num{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--gold);line-height:1;font-weight:500}
+    .hs-label{font-size:.7rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem}
+    .scroll-hint{
+      position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+      display:flex;flex-direction:column;align-items:center;gap:.5rem;
+      color:rgba(255,255,255,.3);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;
+      animation:fade 1s 1.5s both;
+    }
+    .scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--gold),transparent)}
+
+    #pg-home .how{padding:8rem 0;background:var(--cream)}
+    .how-head{margin-bottom:5rem}
+    .how-head h2{font-size:clamp(2rem,4vw,3.25rem);color:var(--black)}
+    .how-head p{font-size:1rem;color:#555;line-height:1.8;margin-top:1rem;max-width:480px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+    .step{padding:2.75rem 2.5rem;border:1px solid var(--border-light);position:relative;overflow:hidden;transition:all .3s var(--ease);background:var(--white);cursor:default}
+    .step:not(:first-child){border-left:none}
+    .step-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:400;color:rgba(0,0,0,.06);line-height:1;margin-bottom:2rem;transition:color .3s}
+    .step-icon{width:48px;height:48px;border-radius:50%;border:1px solid var(--border-dark);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;transition:all .3s}
+    .step-icon svg{color:var(--gold);transition:color .3s}
+    .step h3{font-size:1.25rem;color:var(--black);margin-bottom:.75rem;font-weight:600;transition:color .3s}
+    .step p{font-size:.875rem;color:#666;line-height:1.75;transition:color .3s}
+    .step:hover{background:var(--dark);border-color:var(--dark)}
+    .step:hover .step-num{color:rgba(255,255,255,.06)}
+    .step:hover .step-icon{border-color:var(--gold);background:rgba(200,164,90,.1)}
+    .step:hover h3{color:var(--white)}
+    .step:hover p{color:rgba(255,255,255,.55)}
+
+    .strip{background:var(--gold);overflow:hidden;padding:.85rem 0;position:relative}
+    .strip-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite}
+    .strip-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 2.5rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--black);border-right:1px solid rgba(0,0,0,.15)}
+    .strip-item .dot{width:5px;height:5px;border-radius:50%;background:var(--black);opacity:.5}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    #pg-home .why{padding:8rem 0;background:var(--dark)}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+    #pg-home .why h2{font-size:clamp(2rem,4vw,3.25rem);color:var(--white);margin-bottom:1.25rem}
+    .why-sub{font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.85;margin-bottom:2.5rem}
+    .cmp-table{border:1px solid rgba(255,255,255,.07);overflow:hidden;border-radius:4px}
+    .cmp-head{display:grid;grid-template-columns:2fr 1fr 1fr;background:rgba(255,255,255,.04)}
+    .cmp-head div{padding:.9rem 1.25rem;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+    .cmp-head .us{color:var(--gold)}
+    .cmp-head .them{color:rgba(255,255,255,.3)}
+    .cmp-row{display:grid;grid-template-columns:2fr 1fr 1fr;border-top:1px solid rgba(255,255,255,.05);transition:background .2s}
+    .cmp-row:hover{background:rgba(255,255,255,.025)}
+    .cmp-row div{padding:.9rem 1.25rem;font-size:.83rem;color:rgba(255,255,255,.55);display:flex;align-items:center}
+    .cmp-row .feat{color:rgba(255,255,255,.8)}
+    .ck{color:var(--gold);font-size:1rem;font-weight:700}
+    .cx{color:#444}
+    .benefit-list{display:flex;flex-direction:column;gap:1.25rem}
+    .bcard{padding:1.75rem 2rem;border:1px solid rgba(200,164,90,.12);border-radius:var(--r);position:relative;overflow:hidden;transition:all .3s}
+    .bcard::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .35s}
+    .bcard:hover::before{height:100%}
+    .bcard:hover{border-color:rgba(200,164,90,.3)}
+    .bcard h4{color:var(--white);font-size:1rem;font-weight:600;margin-bottom:.4rem}
+    .bcard p{font-size:.83rem;color:rgba(255,255,255,.45);line-height:1.7}
+
+    /* ── SELL PAGE ── */
+    #pg-sell .sell-hero{
+      padding:10rem 0 6rem;
+      background:var(--dark);
+      position:relative;overflow:hidden;
+    }
+    /* ★ SELL hero background = your custom image */
+    #pg-sell .sell-hero::before{
+      content:'';position:absolute;inset:0;
+      background:url('./imageforfatihswebsite.png') center/cover no-repeat;
+      opacity:.15;
+    }
+    .sell-hero-inner{position:relative;z-index:2}
+    .sell-hero-inner h1{font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);margin-bottom:1.25rem}
+    .sell-hero-inner p{font-size:1.05rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:560px}
+    .sell-pills{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+    .pill{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.1rem;border-radius:50px;border:1px solid rgba(200,164,90,.25);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:500}
+    .pill::before{content:'✓';font-size:.65rem}
+
+    .sell-body{padding:5rem 0 7rem;background:var(--black)}
+    .sell-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:start}
+    .sell-features{display:flex;flex-direction:column;gap:2rem}
+    .sf{display:flex;gap:1.5rem}
+    .sf-num{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);opacity:.5;flex-shrink:0;line-height:1;font-weight:400}
+    .sf h3{font-size:1.1rem;color:var(--white);margin-bottom:.4rem;font-weight:600}
+    .sf p{font-size:.875rem;color:rgba(255,255,255,.45);line-height:1.7}
+    /* ★ SELL body image = your custom image */
+    .sell-img{
+      width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;
+      border-radius:4px;margin-top:3rem;
+    }
+
+    .form-card{background:var(--dark2);border:1px solid rgba(200,164,90,.15);border-radius:8px;padding:3rem}
+    .form-card h3{font-size:1.65rem;color:var(--white);margin-bottom:.35rem}
+    .form-card .fc-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:2.25rem}
+    .form-group{margin-bottom:1.1rem}
+    .form-group label{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:.5rem}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:var(--white);font-size:.9rem;transition:border-color .25s;outline:none}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.22)}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(200,164,90,.45);background:rgba(255,255,255,.07)}
+    .form-group select{appearance:none;cursor:pointer}
+    .form-group select option{background:var(--dark)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .form-submit{width:100%;padding:1.05rem;margin-top:.5rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;background:var(--gold);color:var(--black);border-radius:var(--r);transition:all .3s var(--ease);font-family:'DM Sans',sans-serif;cursor:pointer;border:none}
+    .form-submit:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(200,164,90,.28)}
+    .form-note{font-size:.72rem;color:rgba(255,255,255,.25);text-align:center;margin-top:.85rem}
+    .success-msg{display:none;text-align:center;padding:2.5rem;background:rgba(200,164,90,.06);border:1px solid rgba(200,164,90,.2);border-radius:4px;margin-top:1rem}
+    .success-msg .s-icon{font-size:2.5rem;margin-bottom:.75rem}
+    .success-msg strong{color:var(--white);font-size:1rem;display:block;margin-bottom:.5rem}
+    .success-msg span{font-size:.85rem;color:rgba(255,255,255,.45)}
+
+    /* ── INVESTORS ── */
+    #pg-investors .inv-hero{padding:10rem 0 6rem;background:var(--black);position:relative;overflow:hidden}
+    #pg-investors .inv-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1506755855567-92ff770e8d00?w=1800&q=80') center/cover no-repeat;opacity:.1}
+    .inv-hero-inner{position:relative;z-index:2}
+    .inv-hero-inner h1{font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);margin-bottom:1.25rem}
+    .inv-hero-inner p{font-size:1.05rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:560px}
+    .inv-body{padding:5rem 0 7rem;background:var(--dark)}
+    .inv-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:start}
+    .inv-features h3{font-size:1.5rem;color:var(--white);margin-bottom:1.5rem}
+    .inv-features p{font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:2rem}
+    .inv-perks{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+    .perk{padding:1.5rem;border:1px solid rgba(200,164,90,.12);border-radius:var(--r);transition:border-color .25s}
+    .perk:hover{border-color:rgba(200,164,90,.3)}
+    .perk-ic{font-size:1.5rem;margin-bottom:.75rem}
+    .perk h5{font-size:.9rem;color:var(--white);font-family:'Playfair Display',serif;margin-bottom:.35rem}
+    .perk p{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65}
+    .inv-form-card{background:rgba(255,255,255,.03);border:1px solid rgba(200,164,90,.18);border-radius:8px;padding:3rem}
+    .inv-form-card h3{font-size:1.65rem;color:var(--white);margin-bottom:.35rem}
+    .inv-form-card .fc-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:2.25rem}
+    .inv-form-card .form-group label{color:rgba(255,255,255,.5)}
+    .strat-group{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+    .strat-opt{display:flex;align-items:center;gap:.6rem;padding:.6rem .9rem;border:1px solid rgba(255,255,255,.1);border-radius:var(--r);cursor:pointer;transition:all .25s;font-size:.82rem;color:rgba(255,255,255,.6)}
+    .strat-opt:hover{border-color:rgba(200,164,90,.3);color:var(--gold)}
+    .strat-opt input{accent-color:var(--gold);width:14px;height:14px}
+
+    /* ── ABOUT PAGE ── */
+    #pg-about .about-hero{
+      padding:10rem 0 6rem;background:var(--dark2);position:relative;overflow:hidden;
+    }
+    /* ★ ABOUT hero background = your custom image */
+    #pg-about .about-hero::before{
+      content:'';position:absolute;inset:0;
+      background:url('./anotherfatihimage.png') center/cover no-repeat;
+      opacity:.15;
+    }
+    .about-hero-inner{position:relative;z-index:2}
+    .about-hero-inner h1{font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);margin-bottom:1.25rem}
+    .about-hero-inner p{font-size:1.05rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:560px}
+    .about-body{padding:5rem 0 7rem;background:var(--black)}
+    .about-mission{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-bottom:6rem;padding-bottom:6rem;border-bottom:1px solid rgba(255,255,255,.07)}
+    .about-mission h2{font-size:clamp(1.8rem,3vw,2.75rem);color:var(--white);margin-bottom:1.25rem}
+    .about-mission p{font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.85;margin-bottom:1rem}
+    /* ★ ABOUT body image = your custom image */
+    .about-img{
+      width:100%;aspect-ratio:3/2;object-fit:cover;object-position:center;
+      border-radius:6px;
+    }
+    .about-pillars h2{font-size:clamp(1.8rem,3vw,2.75rem);color:var(--white);margin-bottom:3.5rem}
+    .pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .pillar{padding:2.5rem;border:1px solid rgba(255,255,255,.06);border-radius:4px;transition:all .3s;position:relative;overflow:hidden}
+    .pillar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+    .pillar:hover::after{transform:scaleX(1)}
+    .pillar:hover{border-color:rgba(200,164,90,.2);transform:translateY(-3px)}
+    .pillar-ic{font-size:1.75rem;margin-bottom:1.25rem}
+    .pillar h4{font-size:1.15rem;color:var(--white);margin-bottom:.75rem}
+    .pillar p{font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.75}
+    .founders{margin-top:6rem;padding-top:6rem;border-top:1px solid rgba(255,255,255,.07)}
+    .founders h2{font-size:clamp(1.8rem,3vw,2.75rem);color:var(--white);margin-bottom:.75rem}
+    .founders-sub{font-size:.95rem;color:rgba(255,255,255,.45);margin-bottom:3.5rem}
+    .founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .founder-card{border:1px solid rgba(255,255,255,.07);border-radius:6px;overflow:hidden;transition:all .3s}
+    .founder-card:hover{border-color:rgba(200,164,90,.25);transform:translateY(-4px)}
+    .founder-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block}
+    .founder-photo-placeholder{width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,var(--dark3),var(--dark));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:4rem;color:rgba(200,164,90,.2)}
+    .founder-info{padding:1.75rem 2rem}
+    .founder-name{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:.2rem}
+    .founder-role{font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.85rem}
+    .founder-email{font-size:.8rem;color:rgba(255,255,255,.35)}
+    .founder-email a{color:var(--gold);transition:color .25s}
+    .founder-email a:hover{color:var(--gold2)}
+
+    /* ── CONTACT ── */
+    #pg-contact .contact-hero{padding:10rem 0 6rem;background:var(--dark);position:relative;overflow:hidden}
+    #pg-contact .contact-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(200,164,90,.04) 0%,transparent 70%)}
+    .contact-hero-inner{position:relative;z-index:2}
+    .contact-hero-inner h1{font-size:clamp(2.5rem,5vw,4.5rem);color:var(--white);margin-bottom:1.25rem}
+    .contact-hero-inner p{font-size:1.05rem;color:rgba(255,255,255,.55);line-height:1.8;max-width:520px}
+    .contact-body{padding:5rem 0 7rem;background:var(--black)}
+    .contact-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start}
+    .contact-info h2{font-size:1.75rem;color:var(--white);margin-bottom:2rem}
+    .c-details{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem}
+    .c-detail{display:flex;align-items:flex-start;gap:1.25rem}
+    .c-icon{width:44px;height:44px;flex-shrink:0;border-radius:50%;border:1px solid rgba(200,164,90,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+    .c-text strong{display:block;font-size:.8rem;color:rgba(255,255,255,.75);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.25rem}
+    .c-text span{font-size:.9rem;color:rgba(255,255,255,.45)}
+    .faq-section{margin-top:3rem}
+    .faq-section h3{font-size:1.25rem;color:var(--white);margin-bottom:1.5rem}
+    .faq-item{border-bottom:1px solid rgba(255,255,255,.07)}
+    .faq-q{width:100%;text-align:left;padding:1.25rem 0;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;font-weight:500;color:rgba(255,255,255,.75);gap:1rem;transition:color .25s;font-family:'DM Sans',sans-serif;background:none;border:none;cursor:pointer}
+    .faq-q:hover{color:var(--gold)}
+    .faq-ic{font-size:1.2rem;color:var(--gold);flex-shrink:0;transition:transform .3s;line-height:1}
+    .faq-item.open .faq-ic{transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+    .faq-a-inner{padding:.5rem 0 1.5rem;font-size:.85rem;color:rgba(255,255,255,.45);line-height:1.8}
+    .faq-item.open .faq-a{max-height:200px}
+    .contact-form-card{background:var(--dark2);border:1px solid rgba(200,164,90,.15);border-radius:8px;padding:3rem}
+    .contact-form-card h3{font-size:1.65rem;color:var(--white);margin-bottom:.35rem}
+    .contact-form-card .fc-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:2.25rem}
+    .contact-form-card .form-group label{color:rgba(255,255,255,.5)}
+
+    /* ── FOOTER ── */
+    footer{background:var(--black);border-top:1px solid rgba(255,255,255,.07);padding:4rem 0 2.5rem}
+    .footer-grid{display:grid;grid-template-columns:1.75fr 1fr 1fr;gap:4rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:2rem}
+    .footer-brand{display:flex;flex-direction:column;gap:1.25rem}
+    .footer-logo{display:flex;align-items:center;gap:.75rem}
+    .footer-logo img{height:30px}
+    .footer-wordmark{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--white)}
+    .footer-wordmark span{color:var(--gold)}
+    .footer-brand p{font-size:.83rem;color:rgba(255,255,255,.35);line-height:1.8;max-width:300px}
+    .footer-email{font-size:.8rem;color:var(--gold);margin-top:.25rem}
+    .footer-col h5{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:600;margin-bottom:1.25rem}
+    .footer-col ul{display:flex;flex-direction:column;gap:.75rem}
+    .footer-col a{font-size:.85rem;color:rgba(255,255,255,.5);transition:color .25s;cursor:pointer}
+    .footer-col a:hover{color:var(--gold)}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+    .footer-legal{font-size:.72rem;color:rgba(255,255,255,.25);line-height:1.7;max-width:600px}
+    .footer-copy{font-size:.72rem;color:rgba(255,255,255,.2);white-space:nowrap}
+
+    #btt{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .3s;z-index:800;cursor:pointer}
+    #btt.vis{opacity:1;pointer-events:auto}
+    #btt:hover{background:var(--gold2);transform:translateY(-3px)}
+    #btt svg{color:var(--black)}
+
+    @media(max-width:900px){
+      .nav-logo img{height:80px;max-width:200px}
+      .nav-links,.nav-action{display:none}
+      .burger{display:flex}
+      .steps{grid-template-columns:1fr}
+      .step:not(:first-child){border-left:1px solid var(--border-light);border-top:none}
+      .why-grid,.sell-layout,.inv-layout,.about-mission,.contact-layout{grid-template-columns:1fr}
+      .founders-grid,.pillars-grid,.inv-perks,.strat-group,.frow{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr;gap:2rem}
+      .hero-stats{gap:2rem}
+      .footer-bottom{flex-direction:column}
+    }
+    @media(max-width:600px){
+      .nav-logo img{height:60px;max-width:150px}
+      .hero-h1{font-size:2.5rem}
+      .hero-btns{flex-direction:column}
+      .form-card,.inv-form-card,.contact-form-card{padding:2rem}
+      .btn{padding:.8rem 1.5rem}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════ NAVBAR ════════ -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-inner">
+      <!-- Logo only — "Seymark Capital" text has been removed -->
+      <div class="nav-logo" onclick="goPage('home')">
+        <img src="./seymarklogo.png" alt="Seymark Capital" onerror="this.style.display='none'">
+      </div>
+      <div class="nav-links">
+        <a onclick="goPage('home')" data-page="home">Home</a>
+        <a onclick="goPage('sell')" data-page="sell">Sell Your Property</a>
+        <a onclick="goPage('investors')" data-page="investors">Investors</a>
+        <a onclick="goPage('about')" data-page="about">About Us</a>
+        <a onclick="goPage('contact')" data-page="contact">Contact</a>
+      </div>
+      <div class="nav-action">
+        <button class="btn btn-gold" onclick="goPage('sell')">Get Cash Offer</button>
+      </div>
+      <button class="burger" id="burger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div id="mobile-menu">
+  <a onclick="goPage('home');toggleMobile()">Home</a>
+  <a onclick="goPage('sell');toggleMobile()">Sell Your Property</a>
+  <a onclick="goPage('investors');toggleMobile()">Investors</a>
+  <a onclick="goPage('about');toggleMobile()">About</a>
+  <a onclick="goPage('contact');toggleMobile()">Contact</a>
+</div>
+
+<!-- ██ HOME -->
+<div id="pg-home" class="page active">
+  <section class="hero">
+    <div class="hero-media"></div>
+    <div class="hero-overlay"></div>
+    <div class="wrap">
+      <div class="hero-body">
+        <div class="hero-eyebrow">Private Real Estate Investment</div>
+        <h1 class="hero-h1">Sell Your Home<br><em>Fast, Fair,</em><br>and Free of Stress</h1>
+        <p class="hero-sub">No agents. No repairs. No closing costs. We buy houses as-is with cash — and we close on your schedule.</p>
+        <div class="hero-btns">
+          <button class="btn btn-gold" onclick="goPage('sell')">Get My Cash Offer →</button>
+          <button class="btn btn-ghost" onclick="goPage('investors')">I'm an Investor</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="hs-num">7</div><div class="hs-label">Day Close</div></div>
+          <div><div class="hs-num">$0</div><div class="hs-label">Fees or Commissions</div></div>
+          <div><div class="hs-num">100%</div><div class="hs-label">Cash Offers</div></div>
+          <div><div class="hs-num">As-Is</div><div class="hs-label">No Repairs Needed</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+  </section>
+
+  <div class="strip">
+    <div class="strip-track">
+      <div class="strip-item">No Agent Fees<div class="dot"></div></div>
+      <div class="strip-item">Close in 7 Days<div class="dot"></div></div>
+      <div class="strip-item">Sell As-Is<div class="dot"></div></div>
+      <div class="strip-item">Cash Offers<div class="dot"></div></div>
+      <div class="strip-item">No Open Houses<div class="dot"></div></div>
+      <div class="strip-item">You Choose Closing Date<div class="dot"></div></div>
+      <div class="strip-item">Private &amp; Discreet<div class="dot"></div></div>
+      <div class="strip-item">No Agent Fees<div class="dot"></div></div>
+      <div class="strip-item">Close in 7 Days<div class="dot"></div></div>
+      <div class="strip-item">Sell As-Is<div class="dot"></div></div>
+      <div class="strip-item">Cash Offers<div class="dot"></div></div>
+      <div class="strip-item">No Open Houses<div class="dot"></div></div>
+      <div class="strip-item">You Choose Closing Date<div class="dot"></div></div>
+      <div class="strip-item">Private &amp; Discreet<div class="dot"></div></div>
+    </div>
+  </div>
+
+  <section class="how">
+    <div class="wrap">
+      <div class="how-head reveal">
+        <div class="tag">How It Works</div>
+        <h2>Three Simple Steps<br>to Your Cash Offer</h2>
+        <p>We've stripped away the complexity of traditional real estate. From your first message to cash in hand takes as little as a week.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="step-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h3>Tell Us About Your Property</h3>
+          <p>Fill out a short form with your property's address and basic condition. Completely free, no obligation, takes just a few minutes.</p>
+        </div>
+        <div class="step reveal" style="transition-delay:.12s">
+          <div class="step-num">02</div>
+          <div class="step-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg></div>
+          <h3>Receive a Fair Cash Offer</h3>
+          <p>Our team analyzes your property and delivers a no-obligation cash offer based on current market conditions — fast and transparent.</p>
+        </div>
+        <div class="step reveal" style="transition-delay:.24s">
+          <div class="step-num">03</div>
+          <div class="step-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <h3>Close on Your Timeline</h3>
+          <p>You pick the closing date — as fast as 7 days or whenever works for you. Receive your cash and move forward on your terms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="wrap">
+      <div class="why-grid">
+        <div class="reveal">
+          <div class="tag" style="color:var(--gold2)">Why Seymark</div>
+          <h2>The Smarter Way<br>to Sell</h2>
+          <p class="why-sub">Traditional home sales come loaded with hidden costs, delays, and uncertainty. We eliminate all of it.</p>
+          <div class="cmp-table">
+            <div class="cmp-head"><div></div><div class="us">Seymark</div><div class="them">Traditional</div></div>
+            <div class="cmp-row"><div class="feat">Agent Commissions</div><div><span class="ck">✓ None</span></div><div><span class="cx">5-6%</span></div></div>
+            <div class="cmp-row"><div class="feat">Closing Timeline</div><div><span class="ck">✓ 7 Days</span></div><div><span class="cx">60-90 Days</span></div></div>
+            <div class="cmp-row"><div class="feat">Repairs Required</div><div><span class="ck">✓ None</span></div><div><span class="cx">Often Yes</span></div></div>
+            <div class="cmp-row"><div class="feat">Open Houses</div><div><span class="ck">✓ Never</span></div><div><span class="cx">Multiple</span></div></div>
+            <div class="cmp-row"><div class="feat">Closing Costs</div><div><span class="ck">✓ We Cover It</span></div><div><span class="cx">1-3%</span></div></div>
+            <div class="cmp-row"><div class="feat">Certainty of Sale</div><div><span class="ck">✓ Guaranteed</span></div><div><span class="cx">Never Certain</span></div></div>
+          </div>
+          <div style="margin-top:2rem"><button class="btn btn-gold" onclick="goPage('sell')">Get My Cash Offer →</button></div>
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+          <div class="benefit-list">
+            <div class="bcard"><h4>Complete Privacy</h4><p>No public listings, no MLS, no nosy neighbors. Your sale is handled privately and professionally from start to finish.</p></div>
+            <div class="bcard"><h4>No Repairs or Cleaning</h4><p>Leave it exactly as it is. We buy properties in any condition — damage, clutter, outdated — without any preparation on your end.</p></div>
+            <div class="bcard"><h4>Zero Surprise Costs</h4><p>What we offer is what you receive. No commissions, no agent fees, no closing cost deductions. Completely transparent.</p></div>
+            <div class="bcard"><h4>You Control the Timeline</h4><p>Need to move in 7 days? Need 90? We work on your schedule and accommodate your personal situation with flexibility.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ██ SELL -->
+<div id="pg-sell" class="page">
+  <section class="sell-hero">
+    <div class="wrap sell-hero-inner">
+      <div class="tag">Sell Your Property</div>
+      <h1>Fast. Private. <em style="font-style:italic;color:var(--gold)">Fair.</em></h1>
+      <p>We help homeowners sell off-market without the usual headaches — no listings, no showings, no repairs, no fees.</p>
+      <div class="sell-pills">
+        <div class="pill">No Agent Fees</div>
+        <div class="pill">Close in 7 Days</div>
+        <div class="pill">Any Condition</div>
+        <div class="pill">100% Cash</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sell-body">
+    <div class="wrap">
+      <div class="sell-layout">
+        <div class="reveal">
+          <div class="tag">Why Sellers Choose Us</div>
+          <div class="sell-features">
+            <div class="sf"><div class="sf-num">01</div><div><h3>Immediate Cash Offer</h3><p>We work to deliver a fair cash offer as quickly as possible so you can make the decision that's right for you — no pressure, no waiting.</p></div></div>
+            <div class="sf"><div class="sf-num">02</div><div><h3>Flexible Closing Timeline</h3><p>If you choose to move forward, we close on a date that works with your life. As fast as 7 days or on a longer timeline — you decide.</p></div></div>
+            <div class="sf"><div class="sf-num">03</div><div><h3>Sell Completely As-Is</h3><p>You don't need to fix anything, clean anything, or stage anything. We look at properties in their exact current condition.</p></div></div>
+            <div class="sf"><div class="sf-num">04</div><div><h3>No Fees or Commissions</h3><p>Zero agent fees, zero commissions, zero hidden deductions. The number we quote is the number you receive at closing.</p></div></div>
+          </div>
+          <!-- ★ Your custom image for the Sell page body -->
+          <img class="sell-img" src="./imageforfatihswebsite.png" alt="House sale" loading="lazy"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1449844908441-8829872d2607?w=900&q=80';" />
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+          <div class="form-card">
+            <h3>Property Evaluation Request</h3>
+            <p class="fc-sub">Fill out the form below and our team will reach out promptly.</p>
+            <form id="sellForm" action="https://formspree.io/f/mqenrbjl" method="POST">
+              <input type="hidden" name="_subject" value="Property Evaluation Request - Seymark Capital" />
+              <div class="frow">
+                <div class="form-group"><label>First Name *</label><input type="text" name="first_name" placeholder="John" required /></div>
+                <div class="form-group"><label>Last Name *</label><input type="text" name="last_name" placeholder="Doe" required /></div>
+              </div>
+              <div class="form-group"><label>Email Address *</label><input type="email" name="email" placeholder="you@email.com" required /></div>
+              <div class="form-group"><label>Direct Phone Number *</label><input type="tel" name="phone" placeholder="(555) 000-0000" required /></div>
+              <div class="form-group"><label>Property Address *</label><input type="text" name="property_address" placeholder="123 Main St, City, State" required /></div>
+              <div class="frow">
+                <div class="form-group"><label>Property Type</label><select name="property_type"><option value="">Select type</option><option>Single Family Home</option><option>Multi-Family</option><option>Condo / Townhouse</option><option>Land</option><option>Commercial</option><option>Other</option></select></div>
+                <div class="form-group"><label>Estimated Condition</label><select name="condition"><option value="">Select condition</option><option>Move-in Ready</option><option>Needs Minor Repairs</option><option>Needs Major Repairs</option><option>Distressed / Damaged</option></select></div>
+              </div>
+              <div class="frow">
+                <div class="form-group"><label>Asking Price</label><input type="text" name="asking_price" placeholder="$000,000" /></div>
+                <div class="form-group"><label>Ideal Closing Date</label><input type="text" name="closing_date" placeholder="ASAP / MM-YYYY" /></div>
+              </div>
+              <button type="submit" class="form-submit">Request Analysis →</button>
+              <p class="form-note">🔒 Your information is kept strictly private.</p>
+            </form>
+            <div class="success-msg" id="sellSuccess"><div class="s-icon">✅</div><strong>Request received!</strong><span>We'll review your property details and reach out to you shortly.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ██ INVESTORS -->
+<div id="pg-investors" class="page">
+  <section class="inv-hero">
+    <div class="wrap inv-hero-inner">
+      <div class="tag">For Investors</div>
+      <h1>Exclusive Off-Market<br><em style="font-style:italic;color:var(--gold)">Deal Flow</em></h1>
+      <p>Gain priority access to high-equity residential opportunities before they reach the retail market. Built for serious investors.</p>
+    </div>
+  </section>
+  <section class="inv-body">
+    <div class="wrap">
+      <div class="inv-layout">
+        <div class="reveal">
+          <div class="tag">What We Offer</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.75rem;color:var(--white);margin-bottom:1.25rem">Private Residential Deal Flow for Capital-Ready Buyers</h3>
+          <p style="font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:1.5rem">Seymark Capital connects serious investors with off-market residential opportunities sourced through our proprietary acquisition pipeline.</p>
+          <p style="font-size:.95rem;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:2rem">We leverage deep market knowledge and a trusted seller network to deliver a consistent stream of off-market opportunities — wholesale, fix &amp; flip, and buy &amp; hold.</p>
+          <div class="inv-perks">
+            <div class="perk"><div class="perk-ic">🏠</div><h5>Off-Market Access</h5><p>Properties not listed anywhere else, sourced directly from motivated sellers.</p></div>
+            <div class="perk"><div class="perk-ic">⚡</div><h5>Fast Transactions</h5><p>Pre-vetted deals designed for quick closes without financing delays.</p></div>
+            <div class="perk"><div class="perk-ic">📊</div><h5>Market Intelligence</h5><p>Each deal comes with market context and condition analysis from our team.</p></div>
+            <div class="perk"><div class="perk-ic">🤝</div><h5>Trusted Network</h5><p>Join a private distribution list of vetted investors and capital partners.</p></div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+          <div class="inv-form-card">
+            <h3>Join the Buyers List</h3>
+            <p class="fc-sub">Gain priority access to our exclusive deal flow. Submit your details below.</p>
+            <form id="investorForm" action="https://formspree.io/f/mqenrbjl" method="POST">
+              <input type="hidden" name="_subject" value="Investor Inquiry - Seymark Capital" />
+              <div class="frow">
+                <div class="form-group"><label>First Name *</label><input type="text" name="first_name" placeholder="Jane" required /></div>
+                <div class="form-group"><label>Last Name *</label><input type="text" name="last_name" placeholder="Smith" required /></div>
+              </div>
+              <div class="form-group"><label>Professional Email *</label><input type="email" name="email" placeholder="you@company.com" required /></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(555) 000-0000" /></div>
+              <div class="form-group"><label>Investment Capacity *</label><select name="investment_capacity" required><option value="">Select range</option><option>Under $100K</option><option>$100K - $250K</option><option>$250K - $500K</option><option>$500K - $1M</option><option>$1M+</option></select></div>
+              <div class="form-group"><label>Preferred Strategy</label>
+                <div class="strat-group">
+                  <label class="strat-opt"><input type="checkbox" name="strategy" value="Wholesale"> Wholesale</label>
+                  <label class="strat-opt"><input type="checkbox" name="strategy" value="Fix & Flip"> Fix &amp; Flip</label>
+                  <label class="strat-opt"><input type="checkbox" name="strategy" value="Buy & Hold"> Buy &amp; Hold</label>
+                  <label class="strat-opt"><input type="checkbox" name="strategy" value="Other"> Other</label>
+                </div>
+              </div>
+              <button type="submit" class="form-submit">Join the List →</button>
+              <p class="form-note">🔒 Private distribution list. We never share your information.</p>
+            </form>
+            <div class="success-msg" id="investorSuccess"><div class="s-icon">✅</div><strong>You're on the list!</strong><span>We'll reach out with deal flow matching your investment profile.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ██ ABOUT -->
+<div id="pg-about" class="page">
+  <section class="about-hero">
+    <div class="wrap about-hero-inner">
+      <div class="tag">About Seymark Capital</div>
+      <h1>Bridging Sellers<br>and <em style="font-style:italic;color:var(--gold)">Serious Buyers</em></h1>
+      <p>We connect homeowners who need to sell with investors who are ready to buy — off-market, privately, and efficiently.</p>
+    </div>
+  </section>
+  <section class="about-body">
+    <div class="wrap">
+      <div class="about-mission">
+        <div class="reveal">
+          <div class="tag">Our Mission</div>
+          <h2>Making Real Estate Simple for Everyone Involved</h2>
+          <p>Seymark Capital helps connect homeowners who need to sell with investors who are ready to buy. We focus on off-market homes and simple, private deals that work for both sides.</p>
+          <p>We step in between stressed properties and serious buyers. Our goal is to make the process faster, clearer, and more respectful — for everyone involved.</p>
+          <p>From first contact to closing, we handle the complexity so you don't have to. No guesswork, no surprises, no unnecessary delays.</p>
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+          <!-- ★ Your custom image for the About page body -->
+          <img class="about-img" src="./anotherfatihimage.png" alt="Real estate" loading="lazy"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80';" />
+        </div>
+      </div>
+
+      <div class="about-pillars reveal">
+        <div class="tag">What Drives Us</div>
+        <h2>The Foundation of Our Approach</h2>
+        <div class="pillars-grid">
+          <div class="pillar"><div class="pillar-ic">🔍</div><h4>Market Knowledge</h4><p>We study local markets, prices, and trends so we can match each property with the right type of buyer and deliver fair valuations.</p></div>
+          <div class="pillar"><div class="pillar-ic">🤝</div><h4>Trusted Network</h4><p>We work with a close group of investors, agents, and partners who understand off-market deals and operate with care and integrity.</p></div>
+          <div class="pillar"><div class="pillar-ic">⚡</div><h4>Efficient Closings</h4><p>Once a deal makes sense for everyone, we keep the steps organized and on track so the sale moves forward with minimal friction.</p></div>
+        </div>
+      </div>
+
+      <div class="founders reveal">
+        <div class="tag">The Team</div>
+        <h2>The People Behind Seymark</h2>
+        <p class="founders-sub">Founded by two partners who saw an opportunity to bring transparency and simplicity to private real estate transactions.</p>
+        <div class="founders-grid">
+          <div class="founder-card">
+            <img class="founder-photo" src="./FatihImage.png" alt="M. Fatih Yayla"
+              onerror="this.outerHTML='<div class=\'founder-photo-placeholder\'>F</div>'" />
+            <div class="founder-info">
+              <div class="founder-name">M. Fatih Yayla</div>
+              <div class="founder-role">Founder &amp; Director of Operations</div>
+              <div class="founder-email"><a href="mailto:fatih@seymarkcapital.org">fatih@seymarkcapital.org</a></div>
+            </div>
+          </div>
+          <div class="founder-card">
+            <img class="founder-photo" src="./AsimImage.png" alt="Asim E. Sener"
+              onerror="this.outerHTML='<div class=\'founder-photo-placeholder\'>A</div>'" />
+            <div class="founder-info">
+              <div class="founder-name">Asim E. Sener</div>
+              <div class="founder-role">Founder &amp; Executive of Capital</div>
+              <div class="founder-email"><a href="mailto:asim@seymarkcapital.org">asim@seymarkcapital.org</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ██ CONTACT -->
+<div id="pg-contact" class="page">
+  <section class="contact-hero">
+    <div class="wrap contact-hero-inner">
+      <div class="tag">Contact Us</div>
+      <h1>Let's Start a<br><em style="font-style:italic;color:var(--gold)">Conversation</em></h1>
+      <p>Have questions or not quite ready for a full offer request? Our team is happy to help — reach out anytime.</p>
+    </div>
+  </section>
+  <section class="contact-body">
+    <div class="wrap">
+      <div class="contact-layout">
+        <div class="reveal">
+          <div class="contact-info">
+            <div class="tag">Reach Out</div>
+            <h2>We're Here to Help</h2>
+            <div class="c-details">
+              <div class="c-detail"><div class="c-icon">✉</div><div class="c-text"><strong>Email</strong><span>sales@seymarkcapital.org</span></div></div>
+              <div class="c-detail"><div class="c-icon">☎</div><div class="c-text"><strong>Phone / Text</strong><span>Available during business hours</span></div></div>
+              <div class="c-detail"><div class="c-icon">🕐</div><div class="c-text"><strong>Response Time</strong><span>Within 24 hours, usually same day</span></div></div>
+            </div>
+          </div>
+          <div class="faq-section">
+            <h3>Common Questions</h3>
+            <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How fast can you really close? <span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Since we buy with cash, there's no bank financing involved. We can close in as little as 7 days once all parties agree — or accommodate a longer timeline if that works better for you.</div></div></div>
+            <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Are there really zero fees? <span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Correct. We charge no commissions, no agent fees, and we cover standard closing costs. The number in your offer is what you receive at closing — no deductions, no surprises.</div></div></div>
+            <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do I need to make repairs or clean? <span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Not at all. We buy homes in their exact current condition. Leave whatever you don't want behind — we handle everything after the sale.</div></div></div>
+            <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is Seymark Capital a licensed brokerage? <span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Seymark Capital Investments LLC is not a licensed real estate brokerage. We are investors who purchase equitable interests in properties, working with local title companies to facilitate closings.</div></div></div>
+            <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What types of properties do you buy? <span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">We primarily focus on residential properties — single family homes, multi-family, condos, and townhouses. We look at properties in any condition. Submit your details and we'll let you know quickly if it's a fit.</div></div></div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+          <div class="contact-form-card">
+            <h3>Send Us a Message</h3>
+            <p class="fc-sub">We'll get back to you as soon as possible.</p>
+            <form id="contactForm" action="https://formspree.io/f/mqenrbjl" method="POST">
+              <input type="hidden" name="_subject" value="Contact Inquiry - Seymark Capital" />
+              <div class="frow">
+                <div class="form-group"><label>First Name *</label><input type="text" name="first_name" placeholder="John" required /></div>
+                <div class="form-group"><label>Last Name *</label><input type="text" name="last_name" placeholder="Doe" required /></div>
+              </div>
+              <div class="form-group"><label>Email Address *</label><input type="email" name="email" placeholder="you@email.com" required /></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="(555) 000-0000" /></div>
+              <div class="form-group"><label>What can we help with?</label><select name="inquiry_type"><option value="">Select one</option><option>Selling a Property</option><option>Investor Inquiry</option><option>General Question</option><option>Partnership</option><option>Other</option></select></div>
+              <div class="form-group"><label>Message *</label><textarea name="message" rows="5" placeholder="How can we help you?" required></textarea></div>
+              <button type="submit" class="form-submit">Send Message →</button>
+              <p class="form-note">🔒 We never share your information with third parties.</p>
+            </form>
+            <div class="success-msg" id="contactSuccess"><div class="s-icon">✅</div><strong>Message received!</strong><span>We'll be in touch within 24 hours, usually the same day.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer id="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="./seymarklogo.png" alt="Seymark Capital" onerror="this.style.display='none'" />
+          <span class="footer-wordmark">Seymark <span>Capital</span></span>
+        </div>
+        <p>Seymark Capital Investments LLC is dedicated to helping homeowners sell quickly, fairly, and without the stress of traditional real estate transactions.</p>
+        <div class="footer-email">sales@seymarkcapital.org</div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul>
+          <li><a onclick="goPage('home')">Home</a></li>
+          <li><a onclick="goPage('sell')">Sell Your Property</a></li>
+          <li><a onclick="goPage('investors')">Investors</a></li>
+          <li><a onclick="goPage('about')">About Us</a></li>
+          <li><a onclick="goPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get Started</h5>
+        <ul>
+          <li><a onclick="goPage('sell')">Request Cash Offer</a></li>
+          <li><a onclick="goPage('investors')">Join Buyers List</a></li>
+          <li><a onclick="goPage('contact')">Send a Message</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-legal">Seymark Capital Investments LLC is not a licensed real estate brokerage. We market equitable interests in contracts. All transactions are handled in compliance with applicable state and local regulations.</p>
+      <p class="footer-copy">© 2026 Seymark Capital Investments LLC</p>
+    </div>
+  </div>
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+  let currentPage = 'home';
+  function goPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('pg-' + id).classList.add('active');
+    currentPage = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active-link', a.dataset.page === id);
+    });
+    initReveal();
+  }
+
+  const nav = document.getElementById('nav');
+  const btt = document.getElementById('btt');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 60);
+    btt.classList.toggle('vis', window.scrollY > 500);
+  });
+
+  function toggleMobile() {
+    const menu = document.getElementById('mobile-menu');
+    const burger = document.getElementById('burger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+
+  let revealObserver;
+  function initReveal() {
+    if (revealObserver) revealObserver.disconnect();
+    const els = document.querySelectorAll('#pg-' + currentPage + ' .reveal');
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('on'); revealObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    setTimeout(() => els.forEach(el => revealObserver.observe(el)), 60);
+  }
+  initReveal();
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function setupForm(formId, successId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById(successId).style.display = 'block';
+        } else {
+          btn.textContent = 'Error - Please Try Again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Error - Please Try Again';
+        btn.disabled = false;
+      }
+    });
+  }
+  setupForm('sellForm', 'sellSuccess');
+  setupForm('investorForm', 'investorSuccess');
+  setupForm('contactForm', 'contactSuccess');
+</script>
+</body>
+</html>
